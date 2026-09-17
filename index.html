@@ -84,7 +84,11 @@
     border: 1px solid var(--panel-border);
     border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0 6px 14px rgba(44,40,32,0.08);
   }
   .score-side {
     flex: 1;
@@ -97,6 +101,36 @@
   .score-side.b .name { color: var(--b); }
   .score-side .count { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; line-height: 1; }
   .score-side .count-label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+  .compare-card {
+    display: flex;
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .compare-side { flex: 1; padding: 14px 16px; background: var(--panel); }
+  .compare-side.a { border-right: 1px solid var(--panel-border); }
+  .compare-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .compare-side.a .compare-name { color: var(--a); }
+  .compare-side.b .compare-name { color: var(--b); }
+  .compare-stat { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .compare-stat .compare-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px; color: var(--text); margin-right: 4px; }
+
+  .headline-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .headline-card .headline-value { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; }
+  .headline-card .headline-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+  .dot.a { background: var(--a); }
+  .dot.b { background: var(--b); }
 
   .view { display: none; }
   .view.active { display: block; }
@@ -326,18 +360,16 @@ async function render() {
   document.getElementById('tracks').innerHTML = trackEls;
 
   // --- Vue Stats ---
+  // Convention : delta = temps(B) - temps(A). delta > 0  => A (${nameA}) plus rapide sur cette piste.
+  //                                            delta < 0  => B (${nameB}) plus rapide sur cette piste.
   const rows = buildComparableTracks(data.tracks, nameA, nameB);
-  const douille = rows.filter(r => r.delta < 0); // otherTime < meTime : l'autre me bat
-  const douilleByMs = [...douille].sort((x, y) => x.delta - y.delta).slice(0, 3);
-  const douilleByPct = [...douille].sort((x, y) => y.pct - x.pct).slice(0, 3);
+  const aAhead = rows.filter(r => r.delta > 0).sort((x, y) => y.delta - x.delta).slice(0, 3);
+  const bAhead = rows.filter(r => r.delta < 0).sort((x, y) => x.delta - y.delta).slice(0, 3);
   const closest = [...rows].sort((x, y) => Math.abs(x.delta) - Math.abs(y.delta)).slice(0, 3);
 
-  const statCard = (r, mode) => {
+  const statCard = (r) => {
     const t = r.track;
-    let detail;
-    if (mode === 'ms') detail = `<span class="big">${formatDelta(r.delta).replace('+','').replace('−','')}</span>`;
-    else if (mode === 'pct') detail = `<span class="big">${r.pct.toFixed(1)}%</span>`;
-    else detail = `<span class="big">${formatDelta(r.delta).replace('+','').replace('−','')}</span><br>${r.pct.toFixed(1)}%`;
+    const detail = `<span class="big">${formatDelta(r.delta).replace('+','').replace('−','')}</span><br>${r.pct.toFixed(1)}%`;
     return `<div class="stat-card">
       <img class="stat-thumb" src="${t.thumbnail_url}" alt="">
       <div class="stat-name">${t.name}</div>
@@ -345,17 +377,58 @@ async function render() {
     </div>`;
   };
 
-  const section = (title, sub, items, mode, emptyMsg) => `
+  const section = (title, sub, items, emptyMsg) => `
     <div class="stats-section">
       <div class="stats-title">${title}</div>
       <div class="stats-sub">${sub}</div>
-      ${items.length ? items.map(r => statCard(r, mode)).join('') : `<div class="stat-empty">${emptyMsg}</div>`}
+      ${items.length ? items.map(statCard).join('') : `<div class="stat-empty">${emptyMsg}</div>`}
+    </div>`;
+
+  // Domination globale : écart net cumulé, en secondes (plus parlant qu'un % moyen).
+  const netMs = rows.reduce((sum, r) => sum + r.delta, 0);
+  const avgMs = rows.length ? netMs / rows.length : 0;
+  const leaderName = netMs === 0 ? null : (netMs > 0 ? nameA : nameB);
+  const headline = rows.length === 0 ? `
+    <div class="headline-card">
+      <div class="headline-sub">Pas encore assez de pistes disputées par les deux joueurs</div>
+    </div>` : `
+    <div class="headline-card">
+      <div class="headline-value">${leaderName ? `${leaderName} devance de ${formatDelta(Math.abs(netMs)).replace('+','').replace('−','')} au cumul` : 'Parfaitement à égalité au cumul'}</div>
+      <div class="headline-sub">sur ${rows.length} piste${rows.length > 1 ? 's' : ''} disputées · soit ${(Math.abs(avgMs)/1000).toFixed(3)}s d'écart en moyenne par piste</div>
+    </div>`;
+
+  // Proximité de la référence : écart moyen au WR (%) + nombre de médailles Auteur.
+  const wrStats = {};
+  [nameA, nameB].forEach(name => { wrStats[name] = { pctSum: 0, pctN: 0, author: 0 }; });
+  data.tracks.forEach(t => {
+    const wr = t.world_record_ms;
+    t.players.forEach(p => {
+      if (p.time_ms != null && wr) {
+        wrStats[p.name].pctSum += (p.time_ms - wr) / wr * 100;
+        wrStats[p.name].pctN += 1;
+      }
+      if (p.medal === 'author') wrStats[p.name].author += 1;
+    });
+  });
+  const wrCompare = `
+    <div class="compare-card">
+      ${[[nameA, 'a'], [nameB, 'b']].map(([name, side]) => {
+        const s = wrStats[name];
+        const avgPct = s.pctN ? (s.pctSum / s.pctN).toFixed(1) : '—';
+        return `<div class="compare-side ${side}">
+          <div class="compare-name">${name}</div>
+          <div class="compare-stat"><span class="compare-value">+${avgPct}%</span>au-dessus du WR en moyenne</div>
+          <div class="compare-stat"><span class="compare-value">${s.author}</span>médaille${s.author > 1 ? 's' : ''} Auteur / ${data.tracks.length}</div>
+        </div>`;
+      }).join('')}
     </div>`;
 
   document.getElementById('stats-content').innerHTML =
-    section('🔥 Plus grosses douilles — temps', `Pistes où ${nameB} devance ${nameA} de le plus, en secondes`, douilleByMs, 'ms', `${nameB} ne devance ${nameA} sur aucune piste pour l'instant 👏`) +
-    section('🔥 Plus grosses douilles — %', `Mêmes pistes, mais en écart relatif à la durée du run`, douilleByPct, 'pct', `${nameB} ne devance ${nameA} sur aucune piste pour l'instant 👏`) +
-    section('🎯 Écarts les plus serrés', `Pistes où vos deux temps sont les plus proches`, closest, 'both', `Pas encore assez de pistes avec un temps des deux côtés`);
+    `<div class="stats-section"><div class="stats-title">Domination globale</div><div class="stats-sub">Écart net cumulé sur les pistes où vous avez tous les deux un temps</div>${headline}</div>` +
+    `<div class="stats-section"><div class="stats-title">Proximité de la référence</div><div class="stats-sub">Par rapport au record du monde de chaque piste</div>${wrCompare}</div>` +
+    section(`<span class="dot a"></span>Où ${nameA} domine`, `Top 3 des écarts les plus larges en faveur de ${nameA}`, aAhead, `${nameA} n'est en tête sur aucune piste comparable pour l'instant`) +
+    section(`<span class="dot b"></span>Où ${nameB} domine`, `Top 3 des écarts les plus larges en faveur de ${nameB}`, bAhead, `${nameB} n'est en tête sur aucune piste comparable pour l'instant`) +
+    section('Écarts les plus serrés', `Pistes où vos deux temps sont les plus proches`, closest, `Pas encore assez de pistes avec un temps des deux côtés`);
 }
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
