@@ -18,12 +18,6 @@
     --b: #b5541f;
     --b-soft: rgba(181,84,31,0.09);
     --author: #3e7d4a;
-    --gap-low: #beb7a4;
-    --gap-mid: #c98a2b;
-    --gap-high: #b23a2b;
-    --gap-low-bg: rgba(190,183,164,0.18);
-    --gap-mid-bg: rgba(201,138,43,0.14);
-    --gap-high-bg: rgba(178,58,43,0.13);
   }
   * { box-sizing: border-box; }
   html, body {
@@ -171,18 +165,14 @@
     background: rgba(62,125,74,0.12); color: var(--author);
   }
 
-  .gap-row { display: flex; justify-content: center; margin-top: 8px; }
-  .gap-badge {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 999px;
-    color: var(--muted);
-    background: var(--gap-low-bg);
-  }
-  .gap-badge.mid { color: var(--gap-mid); background: var(--gap-mid-bg); }
-  .gap-badge.high { color: var(--gap-high); background: var(--gap-high-bg); font-weight: 700; }
+  .mini-tug { margin-top: 10px; }
+  .mini-tug-row { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; margin-bottom: 4px; }
+  .mini-tug-row .a { color: var(--a); } .mini-tug-row .b { color: var(--b); }
+  .mini-tug-track { position: relative; height: 6px; background: var(--panel-border); border-radius: 3px; }
+  .mini-tug-center { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--muted); }
+  .mini-tug-fill { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  .mini-tug-fill.a { right: 50%; background: var(--a); }
+  .mini-tug-fill.b { left: 50%; background: var(--b); }
 
   .stats-section { margin-bottom: 28px; }
   .stats-title { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
@@ -269,11 +259,7 @@ function formatDelta(ms) {
   return `${sign}${s}.${String(millis).padStart(3, '0')}s`;
 }
 
-function gapClass(pct) {
-  if (pct >= 6) return 'high';
-  if (pct >= 2) return 'mid';
-  return '';
-}
+const TRACK_GAUGE_CAP_PCT = 20; // % d'écart représentant un remplissage complet de la mini-jauge
 
 // Calcule, pour chaque piste où les deux ont un temps :
 // delta = temps(other) - temps(me)  (positif => me est devant)
@@ -338,10 +324,21 @@ async function render() {
       const delta = pb.time_ms - pa.time_ms; // >0 : A (moi) devant
       const winner = Math.min(pa.time_ms, pb.time_ms);
       const pct = Math.abs(delta) / winner * 100;
-      const cls = gapClass(pct);
-      gapHtml = `<div class="gap-row"><span class="gap-badge ${cls}">
-        écart ${formatDelta(Math.abs(delta)).replace('+','').replace('−','')} · ${pct.toFixed(1)}%
-      </span></div>`;
+      const side = delta > 0 ? 'a' : 'b';
+      const fillPct = Math.min(100, pct / TRACK_GAUGE_CAP_PCT * 100);
+      const valueLabel = `−${(Math.abs(delta)/1000).toFixed(3)}s · ${pct.toFixed(1)}%`;
+      gapHtml = `
+        <div class="mini-tug">
+          <div class="mini-tug-row">
+            <span class="a">${side === 'a' ? valueLabel : ''}</span>
+            <span class="b">${side === 'b' ? valueLabel : ''}</span>
+          </div>
+          <div class="mini-tug-track">
+            <div class="mini-tug-center"></div>
+            <div class="mini-tug-fill a" style="width:${side === 'a' ? fillPct/2 : 0}%"></div>
+            <div class="mini-tug-fill b" style="width:${side === 'b' ? fillPct/2 : 0}%"></div>
+          </div>
+        </div>`;
     }
 
     return `
