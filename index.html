@@ -117,16 +117,17 @@
   .compare-stat { font-size: 12px; color: var(--muted); margin-top: 4px; }
   .compare-stat .compare-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px; color: var(--text); margin-right: 4px; }
 
-  .headline-card {
-    background: var(--panel);
-    border: 1px solid var(--panel-border);
-    border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  .headline-card .headline-value { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; }
-  .headline-card .headline-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .tug-card { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 10px; padding: 16px 18px; margin-bottom: 10px; }
+  .tug-row { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; min-height: 26px; }
+  .tug-row .a { color: var(--a); } .tug-row .b { color: var(--b); }
+  .tug-track { position: relative; height: 14px; background: var(--panel-border); border-radius: 7px; margin: 6px 0 10px; }
+  .tug-center { position: absolute; left: 50%; top: -5px; bottom: -5px; width: 2px; background: var(--muted); }
+  .tug-fill { position: absolute; top: 0; bottom: 0; border-radius: 7px; }
+  .tug-fill.a { right: 50%; background: var(--a); }
+  .tug-fill.b { left: 50%; background: var(--b); }
+  .tug-names { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; }
+  .tug-names .a { color: var(--a); } .tug-names .b { color: var(--b); }
+  .tug-sub { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8px; }
 
   .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
   .dot.a { background: var(--a); }
@@ -390,17 +391,27 @@ async function render() {
       ${items.length ? items.map(r => statCard(r, showLeader)).join('') : `<div class="stat-empty">${emptyMsg}</div>`}
     </div>`;
 
-  // Domination globale : écart net cumulé, en secondes (plus parlant qu'un % moyen).
+  // Domination globale : jauge "tir à la corde", ancrée sur celui qui mène.
+  // Convention course : être devant = temps en moins (affiché en négatif).
   const netMs = rows.reduce((sum, r) => sum + r.delta, 0);
   const avgMs = rows.length ? netMs / rows.length : 0;
-  const leaderName = netMs === 0 ? null : (netMs > 0 ? nameA : nameB);
+  const leaderSide = netMs > 0 ? 'a' : (netMs < 0 ? 'b' : null);
+  const CAP_MS = 30000; // échelle de la jauge : ±30s représente un remplissage complet
+  const fillPct = Math.min(100, Math.abs(netMs) / CAP_MS * 100);
   const headline = rows.length === 0 ? `
-    <div class="headline-card">
-      <div class="headline-sub">Pas encore assez de pistes disputées par les deux joueurs</div>
-    </div>` : `
-    <div class="headline-card">
-      <div class="headline-value">${leaderName ? `${leaderName} devance de ${formatDelta(Math.abs(netMs)).replace('+','').replace('−','')} au cumul` : 'Parfaitement à égalité au cumul'}</div>
-      <div class="headline-sub">sur ${rows.length} piste${rows.length > 1 ? 's' : ''} disputées · soit ${(Math.abs(avgMs)/1000).toFixed(3)}s d'écart en moyenne par piste</div>
+    <div class="tug-card"><div class="tug-sub">Pas encore assez de pistes disputées par les deux joueurs</div></div>` : `
+    <div class="tug-card">
+      <div class="tug-row">
+        <span class="a">${leaderSide === 'a' ? '−' + (Math.abs(netMs)/1000).toFixed(3) + 's' : ''}</span>
+        <span class="b">${leaderSide === 'b' ? '−' + (Math.abs(netMs)/1000).toFixed(3) + 's' : ''}</span>
+      </div>
+      <div class="tug-track">
+        <div class="tug-center"></div>
+        <div class="tug-fill a" style="width:${leaderSide === 'a' ? fillPct/2 : 0}%"></div>
+        <div class="tug-fill b" style="width:${leaderSide === 'b' ? fillPct/2 : 0}%"></div>
+      </div>
+      <div class="tug-names"><span class="a">${nameA}</span><span class="b">${nameB}</span></div>
+      <div class="tug-sub">sur ${rows.length} piste${rows.length > 1 ? 's' : ''} disputées · ${(Math.abs(avgMs)/1000).toFixed(3)}s d'écart en moyenne par piste</div>
     </div>`;
 
   // Proximité de la référence : uniquement sur les pistes disputées par les deux (= rows).
