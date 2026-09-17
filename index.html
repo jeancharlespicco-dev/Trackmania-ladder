@@ -8,17 +8,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #12141c;
-    --panel: #1a1d29;
-    --panel-border: #262b3a;
-    --text: #eef0f4;
-    --muted: #8992a6;
-    --a: #ff8a3d;
-    --a-dim: #6b4a30;
-    --b: #3dd6ff;
-    --b-dim: #2c5566;
-    --author: #6fe0a8;
-    --wr: #f2f2f2;
+    --bg: #ece7dd;
+    --panel: #f8f6f1;
+    --panel-border: #ddd5c4;
+    --text: #2c2820;
+    --muted: #8a8271;
+    --a: #1b5e63;
+    --a-soft: rgba(27,94,99,0.09);
+    --b: #b5541f;
+    --b-soft: rgba(181,84,31,0.09);
+    --author: #3e7d4a;
+    --gap-low: #beb7a4;
+    --gap-mid: #c98a2b;
+    --gap-high: #b23a2b;
+    --gap-low-bg: rgba(190,183,164,0.18);
+    --gap-mid-bg: rgba(201,138,43,0.14);
+    --gap-high-bg: rgba(178,58,43,0.13);
   }
   * { box-sizing: border-box; }
   html, body {
@@ -31,14 +36,12 @@
   .mono { font-family: 'JetBrains Mono', monospace; }
 
   .wrap {
-    max-width: 780px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 40px 20px 80px;
+    padding: 36px 20px 80px;
   }
 
-  header.top {
-    margin-bottom: 32px;
-  }
+  header.top { margin-bottom: 24px; }
   .campaign-label {
     color: var(--muted);
     font-size: 13px;
@@ -46,10 +49,34 @@
     margin-bottom: 4px;
   }
   h1 {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
-    margin: 0 0 24px;
+    margin: 0 0 18px;
     line-height: 1.15;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .tab-btn.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
   }
 
   .scoreboard {
@@ -57,34 +84,23 @@
     border: 1px solid var(--panel-border);
     border-radius: 10px;
     overflow: hidden;
+    margin-bottom: 24px;
   }
   .score-side {
     flex: 1;
-    padding: 16px 18px;
+    padding: 14px 18px;
     background: var(--panel);
-    position: relative;
   }
   .score-side.a { border-right: 1px solid var(--panel-border); }
-  .score-side .name {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
+  .score-side .name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
   .score-side.a .name { color: var(--a); }
   .score-side.b .name { color: var(--b); }
-  .score-side .count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 34px;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .score-side .count-label {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 4px;
-  }
+  .score-side .count { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; line-height: 1; }
+  .score-side .count-label { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
-  .tracks { margin-top: 28px; }
+  .view { display: none; }
+  .view.active { display: block; }
+
   .track {
     background: var(--panel);
     border: 1px solid var(--panel-border);
@@ -92,48 +108,14 @@
     padding: 14px 16px;
     margin-bottom: 10px;
   }
-  .track-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
-  .track-thumb {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    object-fit: cover;
-    flex-shrink: 0;
-    background: #000;
-  }
-  .track-pos {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--muted);
-    font-size: 13px;
-    width: 22px;
-    flex-shrink: 0;
-  }
-  .track-name {
-    font-weight: 600;
-    font-size: 15px;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .track-wr {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--wr);
-    white-space: nowrap;
-  }
+  .track-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .track-thumb { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #ddd; }
+  .track-pos { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 13px; width: 22px; flex-shrink: 0; }
+  .track-name { font-weight: 600; font-size: 15px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .track-wr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); white-space: nowrap; }
   .track-wr .lbl { color: var(--muted); margin-right: 5px; }
 
-  .times {
-    display: flex;
-    gap: 10px;
-  }
+  .times { display: flex; gap: 10px; }
   .time-cell {
     flex: 1;
     border-radius: 8px;
@@ -141,44 +123,66 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    background: #14161f;
+    background: #fdfcfa;
     border: 1px solid var(--panel-border);
   }
-  .time-cell.leading.a { border-color: var(--a); }
-  .time-cell.leading.b { border-color: var(--b); }
-  .time-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 17px;
-    font-weight: 500;
-  }
+  .time-cell.leading.a { border-color: var(--a); background: var(--a-soft); }
+  .time-cell.leading.b { border-color: var(--b); background: var(--b-soft); }
+  .time-value { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 500; }
   .time-cell.none .time-value { color: var(--muted); font-size: 13px; }
   .medal-chip {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 2px 6px;
-    border-radius: 4px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+    padding: 2px 6px; border-radius: 4px;
+    background: rgba(62,125,74,0.12); color: var(--author);
   }
-  .medal-chip.author { background: rgba(111,224,168,0.15); color: var(--author); }
 
-  footer {
-    margin-top: 36px;
-    color: var(--muted);
+  .gap-row { display: flex; justify-content: center; margin-top: 8px; }
+  .gap-badge {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    line-height: 1.6;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: var(--muted);
+    background: var(--gap-low-bg);
   }
+  .gap-badge.mid { color: var(--gap-mid); background: var(--gap-mid-bg); }
+  .gap-badge.high { color: var(--gap-high); background: var(--gap-high-bg); font-weight: 700; }
+
+  .stats-section { margin-bottom: 28px; }
+  .stats-title { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
+  .stats-sub { color: var(--muted); font-size: 12px; margin: 0 0 12px; }
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .stat-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--muted);
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .stat-thumb { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #ddd; }
+  .stat-name { font-weight: 600; font-size: 14px; flex: 1; }
+  .stat-detail { font-family: 'JetBrains Mono', monospace; font-size: 13px; text-align: right; }
+  .stat-detail .big { font-weight: 700; font-size: 15px; }
+  .stat-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
+
+  footer { margin-top: 32px; color: var(--muted); font-size: 12px; line-height: 1.6; }
   footer a { color: var(--muted); }
 
-  .loading, .error {
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    padding: 40px 0;
-  }
+  .loading, .error { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 40px 0; }
 
   @media (max-width: 480px) {
-    h1 { font-size: 24px; }
+    h1 { font-size: 22px; }
     .time-value { font-size: 15px; }
   }
 </style>
@@ -188,11 +192,21 @@
     <header class="top">
       <div class="campaign-label" id="campaign-label">Chargement…</div>
       <h1 id="title">Duel Trackmania</h1>
+      <div class="tabs">
+        <button class="tab-btn active" data-view="classement">Classement</button>
+        <button class="tab-btn" data-view="stats">Stats</button>
+      </div>
       <div class="scoreboard" id="scoreboard"></div>
     </header>
-    <div class="tracks" id="tracks">
-      <div class="loading">Chargement du classement…</div>
+
+    <div class="view active" id="view-classement">
+      <div id="tracks"><div class="loading">Chargement du classement…</div></div>
     </div>
+
+    <div class="view" id="view-stats">
+      <div id="stats-content"></div>
+    </div>
+
     <footer>
       Dernière mise à jour : <span id="updated-at">—</span><br>
       Données récupérées depuis <a href="https://seytaek.com" target="_blank" rel="noopener">seytaek.com</a> ·
@@ -209,8 +223,36 @@ function formatTime(ms) {
   return `${minutes}:${String(seconds).padStart(2, '0')}.${String(millis).padStart(3, '0')}`;
 }
 
-function medalLabel(m) {
-  return { author: 'Auteur' }[m] || '';
+function formatDelta(ms) {
+  const sign = ms >= 0 ? '+' : '−';
+  const abs = Math.abs(ms);
+  const s = Math.floor(abs / 1000);
+  const millis = abs % 1000;
+  return `${sign}${s}.${String(millis).padStart(3, '0')}s`;
+}
+
+function gapClass(pct) {
+  if (pct >= 6) return 'high';
+  if (pct >= 2) return 'mid';
+  return '';
+}
+
+// Calcule, pour chaque piste où les deux ont un temps :
+// delta = temps(other) - temps(me)  (positif => me est devant)
+// pct   = écart / temps du plus rapide, en %
+function buildComparableTracks(tracks, meName, otherName) {
+  const rows = [];
+  tracks.forEach(t => {
+    const pm = {};
+    t.players.forEach(p => pm[p.name] = p.time_ms);
+    const a = pm[meName], b = pm[otherName];
+    if (a == null || b == null) return;
+    const delta = b - a;
+    const winner = Math.min(a, b);
+    const pct = winner > 0 ? Math.abs(delta) / winner * 100 : 0;
+    rows.push({ track: t, meTime: a, otherTime: b, delta, pct });
+  });
+  return rows;
 }
 
 async function render() {
@@ -226,20 +268,19 @@ async function render() {
     return;
   }
 
-  const [nameA, nameB] = data.players;
+  const [nameA, nameB] = data.players; // A = "moi" (Jicepicco), B = colleague
   document.getElementById('campaign-label').textContent = 'Campagne en cours';
   document.getElementById('title').textContent = data.campaign_name;
-  document.getElementById('updated-at').textContent =
-    new Date(data.generated_at).toLocaleString('fr-FR');
+  document.getElementById('updated-at').textContent = new Date(data.generated_at).toLocaleString('fr-FR');
 
-  let winsA = 0, winsB = 0, ties = 0;
+  // --- Vue Classement ---
+  let winsA = 0, winsB = 0;
   const trackEls = data.tracks.map(track => {
     const [pa, pb] = track.players;
     let leaderClass = '';
     if (pa.time_ms != null && pb.time_ms != null) {
       if (pa.time_ms < pb.time_ms) { winsA++; leaderClass = 'a'; }
       else if (pb.time_ms < pa.time_ms) { winsB++; leaderClass = 'b'; }
-      else ties++;
     } else if (pa.time_ms != null) { winsA++; leaderClass = 'a'; }
     else if (pb.time_ms != null) { winsB++; leaderClass = 'b'; }
 
@@ -248,11 +289,22 @@ async function render() {
         return `<div class="time-cell none"><span class="time-value">Pas de temps</span></div>`;
       }
       const isLeader = leaderClass === side;
-      const medal = p.medal ? `<span class="medal-chip ${p.medal}">${medalLabel(p.medal)}</span>` : '';
+      const medal = p.medal ? `<span class="medal-chip">Auteur</span>` : '';
       return `<div class="time-cell ${isLeader ? 'leading ' + side : ''}">
         <span class="time-value mono">${formatTime(p.time_ms)}</span>${medal}
       </div>`;
     };
+
+    let gapHtml = '';
+    if (pa.time_ms != null && pb.time_ms != null && pa.time_ms !== pb.time_ms) {
+      const delta = pb.time_ms - pa.time_ms; // >0 : A (moi) devant
+      const winner = Math.min(pa.time_ms, pb.time_ms);
+      const pct = Math.abs(delta) / winner * 100;
+      const cls = gapClass(pct);
+      gapHtml = `<div class="gap-row"><span class="gap-badge ${cls}">
+        écart ${formatDelta(Math.abs(delta)).replace('+','').replace('−','')} · ${pct.toFixed(1)}%
+      </span></div>`;
+    }
 
     return `
       <div class="track">
@@ -262,27 +314,58 @@ async function render() {
           <span class="track-name">${track.name}</span>
           <span class="track-wr"><span class="lbl">WR</span>${track.world_record_ms != null ? formatTime(track.world_record_ms) : '—'}</span>
         </div>
-        <div class="times">
-          ${cell(pa, 'a')}
-          ${cell(pb, 'b')}
-        </div>
+        <div class="times">${cell(pa, 'a')}${cell(pb, 'b')}</div>
+        ${gapHtml}
       </div>`;
   }).join('');
 
   document.getElementById('scoreboard').innerHTML = `
-    <div class="score-side a">
-      <div class="name">${nameA}</div>
-      <div class="count mono">${winsA}</div>
-      <div class="count-label">carte${winsA > 1 ? 's' : ''} en tête</div>
-    </div>
-    <div class="score-side b">
-      <div class="name">${nameB}</div>
-      <div class="count mono">${winsB}</div>
-      <div class="count-label">carte${winsB > 1 ? 's' : ''} en tête</div>
-    </div>`;
+    <div class="score-side a"><div class="name">${nameA}</div><div class="count mono">${winsA}</div><div class="count-label">carte${winsA > 1 ? 's' : ''} en tête</div></div>
+    <div class="score-side b"><div class="name">${nameB}</div><div class="count mono">${winsB}</div><div class="count-label">carte${winsB > 1 ? 's' : ''} en tête</div></div>`;
 
   document.getElementById('tracks').innerHTML = trackEls;
+
+  // --- Vue Stats ---
+  const rows = buildComparableTracks(data.tracks, nameA, nameB);
+  const douille = rows.filter(r => r.delta < 0); // otherTime < meTime : l'autre me bat
+  const douilleByMs = [...douille].sort((x, y) => x.delta - y.delta).slice(0, 3);
+  const douilleByPct = [...douille].sort((x, y) => y.pct - x.pct).slice(0, 3);
+  const closest = [...rows].sort((x, y) => Math.abs(x.delta) - Math.abs(y.delta)).slice(0, 3);
+
+  const statCard = (r, mode) => {
+    const t = r.track;
+    let detail;
+    if (mode === 'ms') detail = `<span class="big">${formatDelta(r.delta).replace('+','').replace('−','')}</span>`;
+    else if (mode === 'pct') detail = `<span class="big">${r.pct.toFixed(1)}%</span>`;
+    else detail = `<span class="big">${formatDelta(r.delta).replace('+','').replace('−','')}</span><br>${r.pct.toFixed(1)}%`;
+    return `<div class="stat-card">
+      <img class="stat-thumb" src="${t.thumbnail_url}" alt="">
+      <div class="stat-name">${t.name}</div>
+      <div class="stat-detail">${detail}</div>
+    </div>`;
+  };
+
+  const section = (title, sub, items, mode, emptyMsg) => `
+    <div class="stats-section">
+      <div class="stats-title">${title}</div>
+      <div class="stats-sub">${sub}</div>
+      ${items.length ? items.map(r => statCard(r, mode)).join('') : `<div class="stat-empty">${emptyMsg}</div>`}
+    </div>`;
+
+  document.getElementById('stats-content').innerHTML =
+    section('🔥 Plus grosses douilles — temps', `Pistes où ${nameB} devance ${nameA} de le plus, en secondes`, douilleByMs, 'ms', `${nameB} ne devance ${nameA} sur aucune piste pour l'instant 👏`) +
+    section('🔥 Plus grosses douilles — %', `Mêmes pistes, mais en écart relatif à la durée du run`, douilleByPct, 'pct', `${nameB} ne devance ${nameA} sur aucune piste pour l'instant 👏`) +
+    section('🎯 Écarts les plus serrés', `Pistes où vos deux temps sont les plus proches`, closest, 'both', `Pas encore assez de pistes avec un temps des deux côtés`);
 }
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+  });
+});
 
 render();
 </script>
