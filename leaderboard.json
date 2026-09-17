@@ -1,0 +1,486 @@
+{
+  "campaign_name": "Summer 2026",
+  "generated_at": "2026-09-17T10:21:48Z",
+  "players": [
+    "Jicepicco",
+    "Aixtom13"
+  ],
+  "tracks": [
+    {
+      "position": 1,
+      "name": "Piste 01",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/52275b11-541c-4808-849c-f3dae3b1358e.webp",
+      "author_time_ms": 23144,
+      "world_record_ms": 19531,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 20110,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 20644,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "name": "Piste 02",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/cff5ea5a-94f1-4bed-b50a-90c91263a1a0.webp",
+      "author_time_ms": 27097,
+      "world_record_ms": 22708,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 23493,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 23805,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "name": "Piste 03",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/1aaf7e4b-2cde-4ecc-87ad-ca0e21ac6ef2.webp",
+      "author_time_ms": 24213,
+      "world_record_ms": 20938,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 21987,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 22016,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 4,
+      "name": "Piste 04",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/51bafff8-11e9-4b9a-9048-7ca736a18c39.webp",
+      "author_time_ms": 26622,
+      "world_record_ms": 22396,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 23167,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 23413,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 5,
+      "name": "Piste 05",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/acc08ec3-8551-4f3e-8a2a-e0f2013dd102.webp",
+      "author_time_ms": 27795,
+      "world_record_ms": 23513,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 25674,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 25881,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 6,
+      "name": "Piste 06",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/481b7de1-fe2c-4d03-a2a6-49b8a6e9cf4e.webp",
+      "author_time_ms": 29014,
+      "world_record_ms": 24944,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 27795,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 28637,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 7,
+      "name": "Piste 07",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/6e149831-491a-4b5f-82a3-edbc8151d920.webp",
+      "author_time_ms": 27725,
+      "world_record_ms": 23388,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 25396,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 25888,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 8,
+      "name": "Piste 08",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/537c3bb5-2c23-4714-b6ff-fbb2d5332b03.webp",
+      "author_time_ms": 28620,
+      "world_record_ms": 23791,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 26052,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 26281,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 9,
+      "name": "Piste 09",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/cb9fe8bb-921f-44c9-a4c8-fd69aa97cfef.webp",
+      "author_time_ms": 32983,
+      "world_record_ms": 28663,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 30518,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 30098,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 10,
+      "name": "Piste 10",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/28fea4ca-de17-4bbd-84b3-b4dc5f047057.webp",
+      "author_time_ms": 35578,
+      "world_record_ms": 30683,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 33305,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 32498,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 11,
+      "name": "Piste 11",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/c86836fb-ffa3-41c6-a46b-cc0e5effd38a.webp",
+      "author_time_ms": 38371,
+      "world_record_ms": 35952,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 38175,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 38681,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 12,
+      "name": "Piste 12",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/2b7af431-9718-4227-bf3f-5c75b826ab29.webp",
+      "author_time_ms": 28447,
+      "world_record_ms": 25692,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 27865,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 27768,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 13,
+      "name": "Piste 13",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/d909c186-fcd5-45ae-984c-3125a4afc5fa.webp",
+      "author_time_ms": 31462,
+      "world_record_ms": 28235,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 31458,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 31002,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 14,
+      "name": "Piste 14",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/f22987ac-c16e-4216-aa5e-455e9e60b439.webp",
+      "author_time_ms": 34752,
+      "world_record_ms": 29356,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 33618,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 33892,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 15,
+      "name": "Piste 15",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/244af1ad-bd2d-49db-bc4f-27c799f5ea3a.webp",
+      "author_time_ms": 36888,
+      "world_record_ms": 30983,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 36698,
+          "medal": "author"
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 33955,
+          "medal": "author"
+        }
+      ]
+    },
+    {
+      "position": 16,
+      "name": "Piste 16",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/bc1b45a8-7e5e-4d23-908b-8104c48a06e0.webp",
+      "author_time_ms": 50966,
+      "world_record_ms": 44925,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 54365,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 64978,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 17,
+      "name": "Piste 17",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/bd923141-a343-4ac3-8be5-c8702e8c44e6.webp",
+      "author_time_ms": 44891,
+      "world_record_ms": 42891,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 50094,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 54835,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 18,
+      "name": "Piste 18",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/b814e88e-aec5-4e43-9d09-d1783a6618ba.webp",
+      "author_time_ms": 51352,
+      "world_record_ms": 47023,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 61779,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 63708,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 19,
+      "name": "Piste 19",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/3c7df313-4d78-4a2a-9b7c-cf18a653e3c8.webp",
+      "author_time_ms": 43841,
+      "world_record_ms": 41724,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 49313,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 52518,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 20,
+      "name": "Piste 20",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/ab2ef461-fe59-48e2-adb8-3f60de59e808.webp",
+      "author_time_ms": 50598,
+      "world_record_ms": 44743,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 71681,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": 65885,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 21,
+      "name": "Piste 21",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/cc35fa1a-702d-40ce-b876-8d760a6785d5.webp",
+      "author_time_ms": 78988,
+      "world_record_ms": 71860,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 267648,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": null,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 22,
+      "name": "Piste 22",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/8e527370-cf48-4acf-a5c7-c22af14e885b.webp",
+      "author_time_ms": 73418,
+      "world_record_ms": 67162,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 233050,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": null,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 23,
+      "name": "Piste 23",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/aa829c3d-91a9-4fff-9174-d836f149acbe.webp",
+      "author_time_ms": 75112,
+      "world_record_ms": 69750,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 343230,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": null,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 24,
+      "name": "Piste 24",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/1ba0344d-e645-4a28-b88f-577f8f4d5a1a.webp",
+      "author_time_ms": 72708,
+      "world_record_ms": 68612,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 235655,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": null,
+          "medal": null
+        }
+      ]
+    },
+    {
+      "position": 25,
+      "name": "Piste 25",
+      "thumbnail_url": "https://seytaek.com/img/maps/c61c3b42-f1ef-43a9-be77-ff0d8a8220a9/e590e55c-a0a7-4456-a7a9-37bf24840e43.webp",
+      "author_time_ms": 78928,
+      "world_record_ms": 74973,
+      "players": [
+        {
+          "name": "Jicepicco",
+          "time_ms": 235618,
+          "medal": null
+        },
+        {
+          "name": "Aixtom13",
+          "time_ms": null,
+          "medal": null
+        }
+      ]
+    }
+  ],
+  "source": "seytaek.com"
+}
