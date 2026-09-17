@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duel Trackmania</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12141c;
+    --panel: #1a1d29;
+    --panel-border: #262b3a;
+    --text: #eef0f4;
+    --muted: #8992a6;
+    --a: #ff8a3d;
+    --a-dim: #6b4a30;
+    --b: #3dd6ff;
+    --b-dim: #2c5566;
+    --author: #6fe0a8;
+    --wr: #f2f2f2;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Oswald', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  header.top {
+    margin-bottom: 32px;
+  }
+  .campaign-label {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 24px;
+    line-height: 1.15;
+  }
+
+  .scoreboard {
+    display: flex;
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .score-side {
+    flex: 1;
+    padding: 16px 18px;
+    background: var(--panel);
+    position: relative;
+  }
+  .score-side.a { border-right: 1px solid var(--panel-border); }
+  .score-side .name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .score-side.a .name { color: var(--a); }
+  .score-side.b .name { color: var(--b); }
+  .score-side .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .score-side .count-label {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .tracks { margin-top: 28px; }
+  .track {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .track-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .track-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #000;
+  }
+  .track-pos {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    font-size: 13px;
+    width: 22px;
+    flex-shrink: 0;
+  }
+  .track-name {
+    font-weight: 600;
+    font-size: 15px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .track-wr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--wr);
+    white-space: nowrap;
+  }
+  .track-wr .lbl { color: var(--muted); margin-right: 5px; }
+
+  .times {
+    display: flex;
+    gap: 10px;
+  }
+  .time-cell {
+    flex: 1;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    background: #14161f;
+    border: 1px solid var(--panel-border);
+  }
+  .time-cell.leading.a { border-color: var(--a); }
+  .time-cell.leading.b { border-color: var(--b); }
+  .time-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .time-cell.none .time-value { color: var(--muted); font-size: 13px; }
+  .medal-chip {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .medal-chip.author { background: rgba(111,224,168,0.15); color: var(--author); }
+
+  footer {
+    margin-top: 36px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  footer a { color: var(--muted); }
+
+  .loading, .error {
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 40px 0;
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 24px; }
+    .time-value { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="campaign-label" id="campaign-label">Chargement…</div>
+      <h1 id="title">Duel Trackmania</h1>
+      <div class="scoreboard" id="scoreboard"></div>
+    </header>
+    <div class="tracks" id="tracks">
+      <div class="loading">Chargement du classement…</div>
+    </div>
+    <footer>
+      Dernière mise à jour : <span id="updated-at">—</span><br>
+      Données récupérées depuis <a href="https://seytaek.com" target="_blank" rel="noopener">seytaek.com</a> ·
+      non affilié à Ubisoft/Nadeo.
+    </footer>
+  </div>
+
+<script>
+function formatTime(ms) {
+  if (ms === null || ms === undefined) return null;
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000);
+  const millis = ms % 1000;
+  return `${minutes}:${String(seconds).padStart(2, '0')}.${String(millis).padStart(3, '0')}`;
+}
+
+function medalLabel(m) {
+  return { author: 'Auteur' }[m] || '';
+}
+
+async function render() {
+  let data;
+  try {
+    const res = await fetch('./leaderboard.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('fichier introuvable');
+    data = await res.json();
+  } catch (e) {
+    document.getElementById('tracks').innerHTML =
+      `<div class="error">Impossible de charger leaderboard.json. ` +
+      `Vérifie que le workflow GitHub Actions a bien tourné au moins une fois.</div>`;
+    return;
+  }
+
+  const [nameA, nameB] = data.players;
+  document.getElementById('campaign-label').textContent = 'Campagne en cours';
+  document.getElementById('title').textContent = data.campaign_name;
+  document.getElementById('updated-at').textContent =
+    new Date(data.generated_at).toLocaleString('fr-FR');
+
+  let winsA = 0, winsB = 0, ties = 0;
+  const trackEls = data.tracks.map(track => {
+    const [pa, pb] = track.players;
+    let leaderClass = '';
+    if (pa.time_ms != null && pb.time_ms != null) {
+      if (pa.time_ms < pb.time_ms) { winsA++; leaderClass = 'a'; }
+      else if (pb.time_ms < pa.time_ms) { winsB++; leaderClass = 'b'; }
+      else ties++;
+    } else if (pa.time_ms != null) { winsA++; leaderClass = 'a'; }
+    else if (pb.time_ms != null) { winsB++; leaderClass = 'b'; }
+
+    const cell = (p, side) => {
+      if (p.time_ms == null) {
+        return `<div class="time-cell none"><span class="time-value">Pas de temps</span></div>`;
+      }
+      const isLeader = leaderClass === side;
+      const medal = p.medal ? `<span class="medal-chip ${p.medal}">${medalLabel(p.medal)}</span>` : '';
+      return `<div class="time-cell ${isLeader ? 'leading ' + side : ''}">
+        <span class="time-value mono">${formatTime(p.time_ms)}</span>${medal}
+      </div>`;
+    };
+
+    return `
+      <div class="track">
+        <div class="track-head">
+          <span class="track-pos">${String(track.position).padStart(2, '0')}</span>
+          <img class="track-thumb" src="${track.thumbnail_url}" alt="" loading="lazy">
+          <span class="track-name">${track.name}</span>
+          <span class="track-wr"><span class="lbl">WR</span>${track.world_record_ms != null ? formatTime(track.world_record_ms) : '—'}</span>
+        </div>
+        <div class="times">
+          ${cell(pa, 'a')}
+          ${cell(pb, 'b')}
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('scoreboard').innerHTML = `
+    <div class="score-side a">
+      <div class="name">${nameA}</div>
+      <div class="count mono">${winsA}</div>
+      <div class="count-label">carte${winsA > 1 ? 's' : ''} en tête</div>
+    </div>
+    <div class="score-side b">
+      <div class="name">${nameB}</div>
+      <div class="count mono">${winsB}</div>
+      <div class="count-label">carte${winsB > 1 ? 's' : ''} en tête</div>
+    </div>`;
+
+  document.getElementById('tracks').innerHTML = trackEls;
+}
+
+render();
+</script>
+</body>
+</html>
