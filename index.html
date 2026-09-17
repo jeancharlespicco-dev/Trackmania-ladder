@@ -209,6 +209,8 @@
   .stat-detail { font-family: 'JetBrains Mono', monospace; font-size: 13px; text-align: right; }
   .stat-detail .big { font-weight: 700; font-size: 15px; }
   .stat-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
+  .stat-leader { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; display: flex; align-items: center; }
+  .stat-leader .dot { width: 7px; height: 7px; }
 
   footer { margin-top: 32px; color: var(--muted); font-size: 12px; line-height: 1.6; }
   footer a { color: var(--muted); }
@@ -368,21 +370,24 @@ async function render() {
   const bAhead = rows.filter(r => r.delta < 0).sort((x, y) => x.delta - y.delta).slice(0, 3);
   const closest = [...rows].sort((x, y) => Math.abs(x.delta) - Math.abs(y.delta)).slice(0, 3);
 
-  const statCard = (r) => {
+  const statCard = (r, showLeader) => {
     const t = r.track;
+    const leaderSide = r.delta > 0 ? 'a' : 'b';
+    const leaderName = r.delta > 0 ? nameA : nameB;
+    const leaderLine = showLeader ? `<div class="stat-leader"><span class="dot ${leaderSide}"></span>en faveur de ${leaderName}</div>` : '';
     const detail = `<span class="big">${formatDelta(r.delta).replace('+','').replace('−','')}</span><br>${r.pct.toFixed(1)}%`;
     return `<div class="stat-card">
       <img class="stat-thumb" src="${t.thumbnail_url}" alt="">
-      <div class="stat-name">${t.name}</div>
+      <div class="stat-name">${t.name}${leaderLine}</div>
       <div class="stat-detail">${detail}</div>
     </div>`;
   };
 
-  const section = (title, sub, items, emptyMsg) => `
+  const section = (title, sub, items, emptyMsg, showLeader) => `
     <div class="stats-section">
       <div class="stats-title">${title}</div>
       <div class="stats-sub">${sub}</div>
-      ${items.length ? items.map(statCard).join('') : `<div class="stat-empty">${emptyMsg}</div>`}
+      ${items.length ? items.map(r => statCard(r, showLeader)).join('') : `<div class="stat-empty">${emptyMsg}</div>`}
     </div>`;
 
   // Domination globale : écart net cumulé, en secondes (plus parlant qu'un % moyen).
@@ -398,12 +403,13 @@ async function render() {
       <div class="headline-sub">sur ${rows.length} piste${rows.length > 1 ? 's' : ''} disputées · soit ${(Math.abs(avgMs)/1000).toFixed(3)}s d'écart en moyenne par piste</div>
     </div>`;
 
-  // Proximité de la référence : écart moyen au WR (%) + nombre de médailles Auteur.
+  // Proximité de la référence : uniquement sur les pistes disputées par les deux (= rows).
   const wrStats = {};
   [nameA, nameB].forEach(name => { wrStats[name] = { pctSum: 0, pctN: 0, author: 0 }; });
-  data.tracks.forEach(t => {
-    const wr = t.world_record_ms;
-    t.players.forEach(p => {
+  rows.forEach(r => {
+    const wr = r.track.world_record_ms;
+    r.track.players.forEach(p => {
+      if (!wrStats[p.name]) return;
       if (p.time_ms != null && wr) {
         wrStats[p.name].pctSum += (p.time_ms - wr) / wr * 100;
         wrStats[p.name].pctN += 1;
@@ -419,17 +425,17 @@ async function render() {
         return `<div class="compare-side ${side}">
           <div class="compare-name">${name}</div>
           <div class="compare-stat"><span class="compare-value">+${avgPct}%</span>au-dessus du WR en moyenne</div>
-          <div class="compare-stat"><span class="compare-value">${s.author}</span>médaille${s.author > 1 ? 's' : ''} Auteur / ${data.tracks.length}</div>
+          <div class="compare-stat"><span class="compare-value">${s.author}</span>médaille${s.author > 1 ? 's' : ''} Auteur / ${rows.length}</div>
         </div>`;
       }).join('')}
     </div>`;
 
   document.getElementById('stats-content').innerHTML =
     `<div class="stats-section"><div class="stats-title">Domination globale</div><div class="stats-sub">Écart net cumulé sur les pistes où vous avez tous les deux un temps</div>${headline}</div>` +
-    `<div class="stats-section"><div class="stats-title">Proximité de la référence</div><div class="stats-sub">Par rapport au record du monde de chaque piste</div>${wrCompare}</div>` +
-    section(`<span class="dot a"></span>Où ${nameA} domine`, `Top 3 des écarts les plus larges en faveur de ${nameA}`, aAhead, `${nameA} n'est en tête sur aucune piste comparable pour l'instant`) +
-    section(`<span class="dot b"></span>Où ${nameB} domine`, `Top 3 des écarts les plus larges en faveur de ${nameB}`, bAhead, `${nameB} n'est en tête sur aucune piste comparable pour l'instant`) +
-    section('Écarts les plus serrés', `Pistes où vos deux temps sont les plus proches`, closest, `Pas encore assez de pistes avec un temps des deux côtés`);
+    `<div class="stats-section"><div class="stats-title">Proximité de la référence</div><div class="stats-sub">Par rapport au record du monde, sur les ${rows.length} pistes disputées par les deux</div>${wrCompare}</div>` +
+    section(`<span class="dot a"></span>Où ${nameA} domine`, `Top 3 des écarts les plus larges en faveur de ${nameA}`, aAhead, `${nameA} n'est en tête sur aucune piste comparable pour l'instant`, false) +
+    section(`<span class="dot b"></span>Où ${nameB} domine`, `Top 3 des écarts les plus larges en faveur de ${nameB}`, bAhead, `${nameB} n'est en tête sur aucune piste comparable pour l'instant`, false) +
+    section('Écarts les plus serrés', `Pistes où vos deux temps sont les plus proches`, closest, `Pas encore assez de pistes avec un temps des deux côtés`, true);
 }
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
