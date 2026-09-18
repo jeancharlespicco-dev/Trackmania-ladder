@@ -96,6 +96,17 @@
   .score-side .count { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; line-height: 1; }
   .score-side .count-label { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
+  .scatter-wrap { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 10px; padding: 14px 12px 8px; margin-bottom: 10px; }
+  .scatter-legend { display: flex; gap: 18px; justify-content: center; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .scatter-legend .dot { width: 8px; height: 8px; }
+  .scatter-legend .a { color: var(--a); } .scatter-legend .b { color: var(--b); }
+  .scatter-svg text.ax-label { font-family: 'Oswald', sans-serif; font-size: 11px; fill: var(--muted); }
+  .scatter-svg text.ax-title { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; fill: var(--muted); }
+  .scatter-svg .grid { stroke: var(--panel-border); stroke-width: 1; }
+  .scatter-svg .grid.zero { stroke: var(--muted); stroke-width: 1.3; }
+  .scatter-svg circle.pt-a { fill: var(--a); fill-opacity: 0.72; }
+  .scatter-svg circle.pt-b { fill: var(--b); fill-opacity: 0.72; }
+
   .compare-card {
     display: flex;
     border: 1px solid var(--panel-border);
@@ -279,6 +290,56 @@ function buildComparableTracks(tracks, meName, otherName) {
   return rows;
 }
 
+function escXml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+// Nuage de points : pour chaque piste disputée par les deux, un point par joueur.
+// x = écart signé vs l'autre joueur (%, + = devant, − = derrière) — même mesure que la jauge.
+// y = écart au record du monde (%) — 0 en haut (proche du WR) à yMax en bas (loin du WR).
+function buildScatter(rows, nameA, nameB) {
+  if (rows.length === 0) return '<div class="stat-empty">Pas encore assez de pistes disputées par les deux joueurs</div>';
+
+  const points = [];
+  rows.forEach(r => {
+    const wr = r.track.world_record_ms;
+    if (!wr) return;
+    const aSigned = r.delta > 0 ? r.pct : -r.pct;
+    points.push({ pos: r.track.position, side: 'a', x: aSigned, y: (r.meTime - wr) / wr * 100 });
+    points.push({ pos: r.track.position, side: 'b', x: -aSigned, y: (r.otherTime - wr) / wr * 100 });
+  });
+  if (points.length === 0) return '<div class="stat-empty">Record du monde indisponible sur les pistes communes</div>';
+
+  const xMax = Math.max(5, Math.ceil(Math.max(...points.map(p => Math.abs(p.x))) / 5) * 5);
+  const yMax = Math.max(10, Math.ceil(Math.max(...points.map(p => p.y)) / 10) * 10);
+  const W = 680, H = 420, ML = 46, MR = 16, MT = 16, MB = 42;
+  const PW = W - ML - MR, PH = H - MT - MB;
+  const sx = x => ML + (x + xMax) / (2 * xMax) * PW;
+  const sy = y => MT + (y / yMax) * PH;
+
+  let svg = `<svg class="scatter-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img">
+    <title>Écart au face-à-face contre écart au record du monde, par piste et par joueur</title>`;
+
+  for (let gy = 0; gy <= yMax; gy += 10) {
+    svg += `<line class="grid" x1="${ML}" y1="${sy(gy)}" x2="${W - MR}" y2="${sy(gy)}"/>
+      <text class="ax-label" x="${ML - 8}" y="${sy(gy) + 3}" text-anchor="end">${gy}%</text>`;
+  }
+  for (let gx = -xMax; gx <= xMax; gx += 5) {
+    svg += `<line class="grid${gx === 0 ? ' zero' : ''}" x1="${sx(gx)}" y1="${MT}" x2="${sx(gx)}" y2="${H - MB}"/>`;
+  }
+
+  points.forEach(p => {
+    svg += `<circle class="pt-${p.side}" cx="${sx(p.x).toFixed(1)}" cy="${sy(p.y).toFixed(1)}" r="5">
+      <title>Piste ${p.pos} — ${p.side === 'a' ? escXml(nameA) : escXml(nameB)} : ${p.x >= 0 ? '+' : ''}${p.x.toFixed(1)}% vs ${p.side === 'a' ? escXml(nameB) : escXml(nameA)}, ${p.y.toFixed(1)}% au-dessus du WR</title>
+    </circle>`;
+  });
+
+  svg += `<text class="ax-title" x="${ML}" y="14" text-anchor="start">↑ proche du WR</text>
+    <text class="ax-title" x="${ML}" y="${H - 6}" text-anchor="start">↓ loin du WR</text>
+    <text class="ax-title" x="${ML}" y="${H - 20}" text-anchor="start">← ${escXml(nameB)} devant</text>
+    <text class="ax-title" x="${W - MR}" y="${H - 20}" text-anchor="end">${escXml(nameA)} devant →</text>
+    </svg>`;
+  return svg;
+}
+
 async function render() {
   let data;
   try {
@@ -440,6 +501,12 @@ async function render() {
 
   document.getElementById('stats-content').innerHTML =
     `<div class="stats-section"><div class="stats-title">Domination globale</div><div class="stats-sub">Écart net cumulé sur les pistes où vous avez tous les deux un temps</div>${headline}</div>` +
+    `<div class="stats-section"><div class="stats-title">Matrice performance</div><div class="stats-sub">Chaque point = un joueur sur une piste · horizontal : écart face-à-face · vertical : écart au WR</div>
+      <div class="scatter-wrap">
+        <div class="scatter-legend"><span class="a"><span class="dot a"></span>${nameA}</span><span class="b"><span class="dot b"></span>${nameB}</span></div>
+        ${buildScatter(rows, nameA, nameB)}
+      </div>
+    </div>` +
     `<div class="stats-section"><div class="stats-title">Proximité de la référence</div><div class="stats-sub">Par rapport au record du monde, sur les ${rows.length} pistes disputées par les deux</div>${wrCompare}</div>` +
     section(`<span class="dot a"></span>Où ${nameA} domine`, `Top 3 des écarts les plus larges en faveur de ${nameA}`, aAhead, `${nameA} n'est en tête sur aucune piste comparable pour l'instant`, false) +
     section(`<span class="dot b"></span>Où ${nameB} domine`, `Top 3 des écarts les plus larges en faveur de ${nameB}`, bAhead, `${nameB} n'est en tête sur aucune piste comparable pour l'instant`, false) +
