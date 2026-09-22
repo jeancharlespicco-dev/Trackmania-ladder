@@ -1,6 +1,6 @@
 {
   "campaign_name": "Summer 2026",
-  "generated_at": "2026-09-22T18:25:54Z",
+  "generated_at": "2026-09-22T23:23:39Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -186,7 +186,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 33305,
+          "time_ms": 32784,
           "medal": "author"
         },
         {
@@ -281,7 +281,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 36698,
+          "time_ms": 33773,
           "medal": "author"
         },
         {
