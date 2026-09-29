@@ -1,6 +1,6 @@
 {
   "campaign_name": "Summer 2026",
-  "generated_at": "2026-09-29T09:19:43Z",
+  "generated_at": "2026-09-29T17:21:29Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -129,7 +129,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 25396,
+          "time_ms": 25334,
           "medal": "author"
         },
         {
@@ -300,7 +300,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 52593,
+          "time_ms": 52183,
           "medal": null
         },
         {
@@ -319,7 +319,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 50094,
+          "time_ms": 49482,
           "medal": null
         },
         {
@@ -338,7 +338,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 61779,
+          "time_ms": 60901,
           "medal": null
         },
         {
@@ -357,7 +357,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 49313,
+          "time_ms": 47782,
           "medal": null
         },
         {
