@@ -1,6 +1,6 @@
 {
   "campaign_name": "Fall 2026",
-  "generated_at": "2026-10-04T03:33:48Z",
+  "generated_at": "2026-10-04T11:34:59Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -220,7 +220,7 @@
       "name": "Piste 12",
       "thumbnail_url": "https://seytaek.com/img/maps/c45c9c1a-b01f-4c0c-98d5-d404fdaf07d3/8b3eaceb-7a04-4318-bc6c-bd36ff9d6bb9.webp",
       "author_time_ms": 33712,
-      "world_record_ms": 31380,
+      "world_record_ms": 31354,
       "players": [
         {
           "name": "Jicepicco",
@@ -315,7 +315,7 @@
       "name": "Piste 17",
       "thumbnail_url": "https://seytaek.com/img/maps/c45c9c1a-b01f-4c0c-98d5-d404fdaf07d3/10be9c2e-abb5-4ef7-a59d-d7599e17de6f.webp",
       "author_time_ms": 47512,
-      "world_record_ms": 43665,
+      "world_record_ms": 43632,
       "players": [
         {
           "name": "Jicepicco",
@@ -448,7 +448,7 @@
       "name": "Piste 24",
       "thumbnail_url": "https://seytaek.com/img/maps/c45c9c1a-b01f-4c0c-98d5-d404fdaf07d3/2300514f-80ef-42d9-af47-ff992e690cbc.webp",
       "author_time_ms": 79480,
-      "world_record_ms": 63009,
+      "world_record_ms": 62980,
       "players": [
         {
           "name": "Jicepicco",
