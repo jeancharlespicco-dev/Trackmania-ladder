@@ -1,6 +1,6 @@
 {
   "campaign_name": "Fall 2026",
-  "generated_at": "2026-10-06T07:29:16Z",
+  "generated_at": "2026-10-06T12:29:39Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -53,12 +53,12 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 21448,
+          "time_ms": 21145,
           "medal": "author"
         },
         {
           "name": "Aixtom13",
-          "time_ms": 21235,
+          "time_ms": 21008,
           "medal": "author"
         }
       ]
@@ -72,12 +72,12 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 22550,
+          "time_ms": 22088,
           "medal": "author"
         },
         {
           "name": "Aixtom13",
-          "time_ms": 22422,
+          "time_ms": 21565,
           "medal": "author"
         }
       ]
@@ -96,7 +96,7 @@
         },
         {
           "name": "Aixtom13",
-          "time_ms": 23932,
+          "time_ms": 23624,
           "medal": "author"
         }
       ]
@@ -115,7 +115,7 @@
         },
         {
           "name": "Aixtom13",
-          "time_ms": 28758,
+          "time_ms": 28452,
           "medal": "author"
         }
       ]
@@ -167,7 +167,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 33058,
+          "time_ms": 31470,
           "medal": null
         },
         {
@@ -182,16 +182,16 @@
       "name": "Piste 10",
       "thumbnail_url": "https://seytaek.com/img/maps/c45c9c1a-b01f-4c0c-98d5-d404fdaf07d3/9a41a740-1d95-4cfa-bab7-c636bd14a756.webp",
       "author_time_ms": 31298,
-      "world_record_ms": 29445,
+      "world_record_ms": 29428,
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 34914,
+          "time_ms": 33670,
           "medal": null
         },
         {
           "name": "Aixtom13",
-          "time_ms": 34266,
+          "time_ms": 32956,
           "medal": null
         }
       ]
@@ -205,7 +205,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 35288,
+          "time_ms": 33665,
           "medal": null
         },
         {
