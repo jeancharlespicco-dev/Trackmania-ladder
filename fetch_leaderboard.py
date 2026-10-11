@@ -173,6 +173,24 @@ def main():
         "source": "seytaek.com",
     }
 
+    # Protection contre les trous passagers de seytaek.com : s'il ne renvoie
+    # aucun temps perso alors que le relevé précédent (même campagne) en avait,
+    # on garde l'ancien fichier au lieu d'afficher 0 partout.
+    def has_times(d):
+        return any(p.get("time_ms") is not None
+                   for t in d.get("tracks", []) for p in t.get("players", []))
+
+    try:
+        with open("leaderboard.json", encoding="utf-8") as f:
+            previous = json.load(f)
+    except (OSError, ValueError):
+        previous = None
+    if (previous
+            and previous.get("campaign_name") == output["campaign_name"]
+            and has_times(previous) and not has_times(output)):
+        log("⚠️  seytaek ne renvoie aucun temps : on garde les temps précédents.")
+        return
+
     with open("leaderboard.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
