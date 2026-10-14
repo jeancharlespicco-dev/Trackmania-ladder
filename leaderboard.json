@@ -1,6 +1,6 @@
 {
   "campaign_name": "Fall 2026",
-  "generated_at": "2026-10-13T20:27:06Z",
+  "generated_at": "2026-10-14T00:02:43Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -106,7 +106,7 @@
       "name": "Piste 06",
       "thumbnail_url": "https://seytaek.com/img/maps/c45c9c1a-b01f-4c0c-98d5-d404fdaf07d3/7f2bca90-745b-4c90-8c44-a1df66b2c5be.webp",
       "author_time_ms": 29175,
-      "world_record_ms": 26658,
+      "world_record_ms": 26641,
       "players": [
         {
           "name": "Jicepicco",
@@ -224,8 +224,8 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 35877,
-          "medal": null
+          "time_ms": 33694,
+          "medal": "author"
         },
         {
           "name": "Aixtom13",
@@ -262,7 +262,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 42635,
+          "time_ms": 41073,
           "medal": null
         },
         {
