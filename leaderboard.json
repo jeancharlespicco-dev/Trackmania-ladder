@@ -1,6 +1,6 @@
 {
   "campaign_name": "Fall 2026",
-  "generated_at": "2026-10-14T11:17:17Z",
+  "generated_at": "2026-10-14T14:14:05Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -110,7 +110,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 28437,
+          "time_ms": 27857,
           "medal": "author"
         },
         {
@@ -281,8 +281,8 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 32681,
-          "medal": null
+          "time_ms": 30948,
+          "medal": "author"
         },
         {
           "name": "Aixtom13",
@@ -357,7 +357,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 50404,
+          "time_ms": 48783,
           "medal": null
         },
         {
@@ -376,7 +376,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 55755,
+          "time_ms": 53776,
           "medal": null
         },
         {
