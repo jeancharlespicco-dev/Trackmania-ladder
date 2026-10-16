@@ -1,6 +1,6 @@
 {
   "campaign_name": "Fall 2026",
-  "generated_at": "2026-10-16T13:39:01Z",
+  "generated_at": "2026-10-16T18:32:45Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -125,7 +125,7 @@
       "name": "Piste 07",
       "thumbnail_url": "https://seytaek.com/img/maps/c45c9c1a-b01f-4c0c-98d5-d404fdaf07d3/5783016f-ed0a-4fa4-bd6e-09e7d1e9cb23.webp",
       "author_time_ms": 31425,
-      "world_record_ms": 28605,
+      "world_record_ms": 28603,
       "players": [
         {
           "name": "Jicepicco",
