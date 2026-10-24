@@ -1,6 +1,6 @@
 {
   "campaign_name": "Fall 2026",
-  "generated_at": "2026-10-24T02:40:37Z",
+  "generated_at": "2026-10-24T13:00:36Z",
   "players": [
     "Jicepicco",
     "Aixtom13"
@@ -338,7 +338,7 @@
       "players": [
         {
           "name": "Jicepicco",
-          "time_ms": 76654,
+          "time_ms": 74021,
           "medal": null
         },
         {
